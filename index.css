@@ -1,0 +1,11 @@
+/* index.css 또는 style.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@theme {
+  colors: {
+    primary: #1e3a8a;
+    secondary: #10b981;
+  }
+}
