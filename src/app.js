@@ -159,6 +159,8 @@ async function getAssistantResponse(userMessage) {
     url = `${BASE_URL}/chat`;
   }
 
+  console.log("📡 요청 URL:", url);
+  console.log("📦 요청 Payload:", payload);
   const response = await fetch(url, {
     method: "POST",
     headers: {
@@ -167,6 +169,10 @@ async function getAssistantResponse(userMessage) {
     body: JSON.stringify(payload),
   });
 
+  console.log("📥 응답 Status:", response.status)
+  const text = await response.text();
+  console.log("📃 응답 본문:", text);
+  
   if (!response.ok) {
     throw new Error("Network response was not ok");
   }
