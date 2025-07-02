@@ -175,16 +175,16 @@ async function getAssistantResponse(userMessage) {
 
   console.log("📥 응답 Status:", response.status);
 
-  // ⛔ 실패한 경우: text()만 사용
   if (!response.ok) {
-    const errText = await response.text();
-    console.error("📃 오류 응답 내용:", errText);
+    // 응답 본문을 텍스트로 확인
+    const errorText = await response.text();  // ✅ 실패한 경우만 text() 호출
+    console.error("❌ 서버 응답 오류:", errorText);
     throw new Error(`Network response was not ok: ${response.status}`);
   }
 
-  // ✅ 정상 응답일 경우에만 json() 호출
-  const data = await response.json();
-  console.log("📦 파싱된 응답 데이터:", data);
+  // ✅ 이 시점에서만 최초로 body 읽기
+  const data = await response.json();  // 성공 응답이므로 .json() 호출
+  console.log("✅ 파싱된 응답 데이터:", data);
 
   if (mode === "assistant" && data.thread_id) {
     const existingThreadId = await getMetadata("thread_id");
