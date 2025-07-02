@@ -4,7 +4,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "rm -rf dist .parcel-cache && parcel serve index.html",
-    "build": "rm -rf dist .parcel-cache && NODE_ENV=production parcel build index.html --public-url .",
+    "build": "rm -rf dist .parcel-cache && cross-env NODE_ENV=production parcel build index.html --public-url .",
     "deploy": "gh-pages -d dist"
   },
   "keywords": [],
@@ -15,6 +15,7 @@
     "@tailwindcss/cli": "^4.1.11",
     "@tailwindcss/postcss": "^4.1.11",
     "autoprefixer": "^10.4.21",
+    "cross-env": "^7.0.3",
     "gh-pages": "^6.3.0",
     "parcel": "^2.15.4",
     "postcss": "^8.5.6",
