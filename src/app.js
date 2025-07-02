@@ -155,7 +155,10 @@ async function getAssistantResponse(userMessage) {
       ...allMsgs.map((m) => ({ role: m.role, content: m.content })),
       { role: "user", content: userMessage },
     ];
-    payload = { messages: messagesForAPI };
+    payload = {
+      messages: messagesForAPI,
+      message: userMessage,
+    };
     url = `${BASE_URL}/chat`;
   }
 
@@ -172,7 +175,7 @@ async function getAssistantResponse(userMessage) {
   console.log("📥 응답 Status:", response.status)
   const text = await response.text();
   console.log("📃 응답 본문:", text);
-  
+
   if (!response.ok) {
     throw new Error("Network response was not ok");
   }
