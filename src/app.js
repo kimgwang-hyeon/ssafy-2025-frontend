@@ -164,6 +164,7 @@ async function getAssistantResponse(userMessage) {
 
   console.log("📡 요청 URL:", url);
   console.log("📦 요청 Payload:", payload);
+
   const response = await fetch(url, {
     method: "POST",
     headers: {
@@ -172,15 +173,18 @@ async function getAssistantResponse(userMessage) {
     body: JSON.stringify(payload),
   });
 
-  console.log("📥 응답 Status:", response.status)
-  const text = await response.text();
-  console.log("📃 응답 본문:", text);
+  console.log("📥 응답 Status:", response.status);
 
+  // ⛔ 실패한 경우: text()만 사용
   if (!response.ok) {
-    throw new Error("Network response was not ok");
+    const errText = await response.text();
+    console.error("📃 오류 응답 내용:", errText);
+    throw new Error(`Network response was not ok: ${response.status}`);
   }
 
+  // ✅ 정상 응답일 경우에만 json() 호출
   const data = await response.json();
+  console.log("📦 파싱된 응답 데이터:", data);
 
   if (mode === "assistant" && data.thread_id) {
     const existingThreadId = await getMetadata("thread_id");
@@ -191,6 +195,7 @@ async function getAssistantResponse(userMessage) {
 
   return data.reply;
 }
+
 
 messageForm.addEventListener("submit", async (e) => {
   e.preventDefault();
