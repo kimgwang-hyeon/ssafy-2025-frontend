@@ -269,6 +269,7 @@ async function getAssistantResponse(userMessage) {
   const data = await response.json();
   console.log("✅ 파싱된 응답 데이터:", data);
 
+  if (typeof data === 'string') return data;
   return data.reply ?? '답변을 받아오지 못했습니다.';
 }
 
