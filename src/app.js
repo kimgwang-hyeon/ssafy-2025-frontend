@@ -20,6 +20,13 @@ function autoResizeTextarea() {
 
 userInput.addEventListener('input', autoResizeTextarea);
 
+userInput.addEventListener('keydown', function(e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    messageForm.dispatchEvent(new Event('submit', { cancelable: true }));
+  }
+});
+
 // Quick question handlers
 const quickQuestions = {
   '월드컵 우승국': '역대 FIFA 월드컵 우승국과 우승 횟수를 알려주세요.',
@@ -113,60 +120,55 @@ async function clearAllData() {
 
 function createMessageBubble(content, sender = "user") {
   const wrapper = document.createElement("div");
-  wrapper.classList.add("mb-6", "flex", "items-start", "space-x-4", "animate-fade-in");
-
-  // 정렬 방향 결정
+  wrapper.classList.add("flex", "items-end", "space-x-2", "w-full");
   if (sender === "user") {
     wrapper.classList.add("justify-end", "flex-row-reverse");
+  } else {
+    wrapper.classList.add("justify-start");
   }
 
+  // 아바타
   const avatar = document.createElement("div");
   avatar.classList.add(
-    "w-12",
-    "h-12",
+    "w-8",
+    "h-8",
     "rounded-full",
-    "flex-shrink-0",
     "flex",
     "items-center",
     "justify-center",
     "font-bold",
-    "text-white",
-    "shadow-lg"
+    "shadow-sm",
+    "text-white"
   );
-
   if (sender === "assistant") {
-    avatar.classList.add("bg-gradient-to-br", "from-green-500", "to-green-600");
-    avatar.innerHTML = '<i class="fas fa-futbol"></i>';
+    avatar.classList.add("bg-green-400");
+    avatar.innerHTML = '<i class="fas fa-futbol text-white text-base"></i>';
   } else {
-    avatar.classList.add("bg-gradient-to-br", "from-blue-500", "to-blue-600");
-    avatar.innerHTML = '<i class="fas fa-user"></i>';
+    avatar.classList.add("bg-blue-500");
+    avatar.innerHTML = '<i class="fas fa-user text-white text-base"></i>';
   }
 
+  // 버블
   const bubble = document.createElement("div");
   bubble.classList.add(
-    "max-w-full",
-    "md:max-w-3xl",
-    "p-4",
+    "max-w-[70%]",
+    "px-4",
+    "py-2",
     "rounded-2xl",
+    "shadow",
     "whitespace-pre-wrap",
     "leading-relaxed",
-    "shadow-md",
-    "backdrop-blur-sm",
-    "message-bubble"
+    "text-base"
   );
-
   if (sender === "assistant") {
-    bubble.classList.add("bg-white/90", "text-gray-800", "border", "border-green-100");
+    bubble.classList.add("bg-gray-100", "text-gray-900", "border", "border-gray-200");
   } else {
-    bubble.classList.add("bg-gradient-to-r", "from-blue-500", "to-blue-600", "text-white");
+    bubble.classList.add("bg-gradient-to-r", "from-blue-100", "to-blue-300", "text-blue-900", "border", "border-blue-100");
   }
-
-  // 오른쪽 정렬 시 margin 조정
   if (sender === "user") {
     bubble.classList.add("ml-auto");
   }
-
-  // Format content with markdown-like formatting
+  // 마크다운 등 포맷팅
   const formattedContent = formatMessage(content);
   bubble.innerHTML = formattedContent;
 
@@ -186,48 +188,41 @@ function formatMessage(content) {
 
 function createLoadingMessage() {
   const wrapper = document.createElement("div");
-  wrapper.classList.add("mb-6", "flex", "items-start", "space-x-4", "animate-fade-in");
+  wrapper.classList.add("flex", "items-end", "space-x-2", "w-full");
   wrapper.id = "loading-message";
-
+  wrapper.classList.add("justify-start");
   const avatar = document.createElement("div");
   avatar.classList.add(
-    "w-12",
-    "h-12",
+    "w-8",
+    "h-8",
     "rounded-full",
-    "flex-shrink-0",
     "flex",
     "items-center",
     "justify-center",
     "font-bold",
-    "text-white",
-    "shadow-lg",
-    "bg-gradient-to-br",
-    "from-green-500",
-    "to-green-600"
+    "shadow-sm",
+    "bg-green-400",
+    "text-white"
   );
-  avatar.innerHTML = '<i class="fas fa-futbol"></i>';
-
+  avatar.innerHTML = '<i class="fas fa-futbol text-white text-base"></i>';
   const bubble = document.createElement("div");
   bubble.classList.add(
-    "max-w-full",
-    "md:max-w-3xl",
-    "p-4",
+    "max-w-[70%]",
+    "px-4",
+    "py-2",
     "rounded-2xl",
-    "bg-white/90",
-    "text-gray-800",
+    "shadow",
+    "bg-gray-100",
+    "text-gray-900",
     "border",
-    "border-green-100",
-    "shadow-md",
-    "backdrop-blur-sm"
+    "border-gray-200"
   );
-  
   bubble.innerHTML = `
     <div class="flex items-center space-x-2">
-      <div class="animate-spin rounded-full h-4 w-4 border-b-2 border-green-500"></div>
+      <div class="animate-spin rounded-full h-4 w-4 border-b-2 border-green-400"></div>
       <span class="text-gray-600">월드컵 정보를 찾고 있습니다...</span>
     </div>
   `;
-
   wrapper.appendChild(avatar);
   wrapper.appendChild(bubble);
   return wrapper;
