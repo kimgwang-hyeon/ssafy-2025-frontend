@@ -178,7 +178,7 @@ function createMessageBubble(content, sender = "user") {
 }
 
 function formatMessage(content) {
-  // Simple markdown-like formatting
+  if (typeof content !== 'string') return '';
   return content
     .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
     .replace(/\*(.*?)\*/g, '<em>$1</em>')
@@ -269,7 +269,7 @@ async function getAssistantResponse(userMessage) {
   const data = await response.json();
   console.log("✅ 파싱된 응답 데이터:", data);
 
-  return data.reply;
+  return data.reply ?? '답변을 받아오지 못했습니다.';
 }
 
 messageForm.addEventListener("submit", async (e) => {
