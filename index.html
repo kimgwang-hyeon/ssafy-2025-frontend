@@ -30,52 +30,59 @@
     </header>
 
     <!-- Main chat area -->
-    <main id="chat-container" class="flex-1 overflow-y-auto p-6 chat-scroll max-w-6xl mx-auto w-full">
-        <!-- Welcome message -->
-        <div id="welcome-message" class="text-center py-12">
-            <div class="w-24 h-24 bg-gradient-to-br from-green-400 to-blue-500 rounded-full flex items-center justify-center mx-auto mb-6">
-                <i class="fas fa-futbol text-white text-3xl"></i>
-            </div>
-            <h2 class="text-2xl font-bold text-gray-800 mb-4">월드컵 정보 어시스턴트에 오신 것을 환영합니다!</h2>
-            <p class="text-gray-600 mb-8 max-w-2xl mx-auto">FIFA 월드컵의 역사, 선수, 팀, 경기 결과 등에 대해 무엇이든 물어보세요.</p>
-            
-            <!-- Quick action buttons -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-4xl mx-auto">
-                <button class="quick-question bg-white p-4 rounded-xl shadow-md hover:shadow-lg transition-all duration-200 border border-gray-100 hover:border-green-200 text-left">
-                    <div class="flex items-center space-x-3">
-                        <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
-                            <i class="fas fa-trophy text-green-600"></i>
-                        </div>
-                        <div>
-                            <h3 class="font-semibold text-gray-800">월드컵 우승국</h3>
-                            <p class="text-sm text-gray-500">역대 우승국과 횟수</p>
-                        </div>
-                    </div>
-                </button>
+    <main id="chat-container" class="flex-1 overflow-y-auto p-6 chat-scroll max-w-6xl mx-auto w-full relative">
+        <!-- 흐릿한 배경 이미지 -->
+        <div class="absolute inset-0 z-0 flex items-center justify-center pointer-events-none select-none">
+            <img src="/images/worldcup2026.png" alt="월드컵" class="w-2/3 max-w-lg opacity-10 blur-lg mx-auto" />
+        </div>
+        <!-- 채팅 메시지 영역 -->
+        <div id="chat-messages" class="relative z-10">
+            <!-- Welcome message -->
+            <div id="welcome-message" class="text-center py-12">
+                <div class="w-24 h-24 bg-gradient-to-br from-green-400 to-blue-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i class="fas fa-futbol text-white text-3xl"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">월드컵 정보 어시스턴트에 오신 것을 환영합니다!</h2>
+                <p class="text-gray-600 mb-8 max-w-2xl mx-auto">FIFA 월드컵의 역사, 선수, 팀, 경기 결과 등에 대해 무엇이든 물어보세요.</p>
                 
-                <button class="quick-question bg-white p-4 rounded-xl shadow-md hover:shadow-lg transition-all duration-200 border border-gray-100 hover:border-green-200 text-left">
-                    <div class="flex items-center space-x-3">
-                        <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-                            <i class="fas fa-user text-blue-600"></i>
+                <!-- Quick action buttons -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-4xl mx-auto">
+                    <button class="quick-question bg-white p-4 rounded-xl shadow-md hover:shadow-lg transition-all duration-200 border border-gray-100 hover:border-green-200 text-left">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-trophy text-green-600"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-gray-800">월드컵 우승국</h3>
+                                <p class="text-sm text-gray-500">역대 우승국과 횟수</p>
+                            </div>
                         </div>
-                        <div>
-                            <h3 class="font-semibold text-gray-800">유명 선수</h3>
-                            <p class="text-sm text-gray-500">월드컵 활약한 선수들</p>
+                    </button>
+                    
+                    <button class="quick-question bg-white p-4 rounded-xl shadow-md hover:shadow-lg transition-all duration-200 border border-gray-100 hover:border-green-200 text-left">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-user text-blue-600"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-gray-800">유명 선수</h3>
+                                <p class="text-sm text-gray-500">월드컵 활약한 선수들</p>
+                            </div>
                         </div>
-                    </div>
-                </button>
-                
-                <button class="quick-question bg-white p-4 rounded-xl shadow-md hover:shadow-lg transition-all duration-200 border border-gray-100 hover:border-green-200 text-left">
-                    <div class="flex items-center space-x-3">
-                        <div class="w-10 h-10 bg-yellow-100 rounded-lg flex items-center justify-center">
-                            <i class="fas fa-calendar text-yellow-600"></i>
+                    </button>
+                    
+                    <button class="quick-question bg-white p-4 rounded-xl shadow-md hover:shadow-lg transition-all duration-200 border border-gray-100 hover:border-green-200 text-left">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 bg-yellow-100 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-calendar text-yellow-600"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-gray-800">최근 월드컵</h3>
+                                <p class="text-sm text-gray-500">2022 카타르 월드컵 정보</p>
+                            </div>
                         </div>
-                        <div>
-                            <h3 class="font-semibold text-gray-800">최근 월드컵</h3>
-                            <p class="text-sm text-gray-500">2022 카타르 월드컵 정보</p>
-                        </div>
-                    </div>
-                </button>
+                    </button>
+                </div>
             </div>
         </div>
     </main>

@@ -6,6 +6,7 @@ const userInput = document.getElementById("user-input");
 const apiSelector = document.getElementById("api-selector");
 const newChatBtn = document.getElementById("new-chat-btn");
 const welcomeMessage = document.getElementById("welcome-message");
+const chatMessages = document.getElementById("chat-messages");
 
 const BASE_URL = process.env.API_ENDPOINT;
 
@@ -114,6 +115,11 @@ function createMessageBubble(content, sender = "user") {
   const wrapper = document.createElement("div");
   wrapper.classList.add("mb-6", "flex", "items-start", "space-x-4", "animate-fade-in");
 
+  // 정렬 방향 결정
+  if (sender === "user") {
+    wrapper.classList.add("justify-end", "flex-row-reverse");
+  }
+
   const avatar = document.createElement("div");
   avatar.classList.add(
     "w-12",
@@ -145,13 +151,19 @@ function createMessageBubble(content, sender = "user") {
     "whitespace-pre-wrap",
     "leading-relaxed",
     "shadow-md",
-    "backdrop-blur-sm"
+    "backdrop-blur-sm",
+    "message-bubble"
   );
 
   if (sender === "assistant") {
     bubble.classList.add("bg-white/90", "text-gray-800", "border", "border-green-100");
   } else {
     bubble.classList.add("bg-gradient-to-r", "from-blue-500", "to-blue-600", "text-white");
+  }
+
+  // 오른쪽 정렬 시 margin 조정
+  if (sender === "user") {
+    bubble.classList.add("ml-auto");
   }
 
   // Format content with markdown-like formatting
@@ -276,7 +288,7 @@ messageForm.addEventListener("submit", async (e) => {
   }
 
   // Add user message
-  chatContainer.appendChild(createMessageBubble(message, "user"));
+  chatMessages.appendChild(createMessageBubble(message, "user"));
   await saveMessage("user", message);
 
   // Clear input and reset height
@@ -286,7 +298,7 @@ messageForm.addEventListener("submit", async (e) => {
 
   // Add loading message
   const loadingMessage = createLoadingMessage();
-  chatContainer.appendChild(loadingMessage);
+  chatMessages.appendChild(loadingMessage);
   scrollToBottom();
 
   try {
@@ -299,7 +311,7 @@ messageForm.addEventListener("submit", async (e) => {
     }
     
     // Add assistant response
-    chatContainer.appendChild(createMessageBubble(response, "assistant"));
+    chatMessages.appendChild(createMessageBubble(response, "assistant"));
     await saveMessage("assistant", response);
     scrollToBottom();
   } catch (error) {
@@ -312,7 +324,7 @@ messageForm.addEventListener("submit", async (e) => {
     }
     
     const errMsg = "죄송합니다. 응답을 가져오는 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.";
-    chatContainer.appendChild(createMessageBubble(errMsg, "assistant"));
+    chatMessages.appendChild(createMessageBubble(errMsg, "assistant"));
     await saveMessage("assistant", errMsg);
     scrollToBottom();
   }
@@ -327,7 +339,7 @@ async function loadExistingMessages() {
     }
     
     for (const msg of allMsgs) {
-      chatContainer.appendChild(createMessageBubble(msg.content, msg.role));
+      chatMessages.appendChild(createMessageBubble(msg.content, msg.role));
     }
     scrollToBottom();
   }
@@ -336,7 +348,7 @@ async function loadExistingMessages() {
 newChatBtn.addEventListener("click", async () => {
   // Clear DB data and UI
   await clearAllData();
-  chatContainer.innerHTML = "";
+  chatMessages.innerHTML = "";
   
   // Show welcome message again
   if (welcomeMessage) {
