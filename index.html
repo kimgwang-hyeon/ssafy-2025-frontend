@@ -1,44 +1,101 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ChatGPT-like App</title>
+    <title>월드컵 정보 어시스턴트</title>
     <link rel="stylesheet" href="./src/styles.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 
-<body class="h-screen flex flex-col bg-gray-100">
+<body class="h-screen flex flex-col bg-gradient-to-br from-green-50 to-blue-50">
     <!-- Header -->
-    <header
-        class="p-4 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white flex items-center justify-between">
-        <div class="flex items-center space-x-4">
-            <h1 class="text-xl font-semibold">ChatGPT-like Interface</h1>
-            <button id="new-chat-btn" class="bg-white text-gray-700 px-3 py-1 rounded hover:bg-gray-200 transition">+
-                New Chat</button>
+    <header class="p-6 bg-gradient-to-r from-green-600 via-green-500 to-blue-600 text-white shadow-lg">
+        <div class="max-w-6xl mx-auto flex items-center justify-between">
+            <div class="flex items-center space-x-4">
+                <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center">
+                    <i class="fas fa-futbol text-green-600 text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-bold">월드컵 정보 어시스턴트</h1>
+                    <p class="text-green-100 text-sm">FIFA 월드컵에 대한 모든 정보를 물어보세요</p>
+                </div>
+            </div>
+            <button id="new-chat-btn" class="bg-white/20 backdrop-blur-sm text-white px-4 py-2 rounded-lg hover:bg-white/30 transition-all duration-200 flex items-center space-x-2">
+                <i class="fas fa-plus text-sm"></i>
+                <span>새 대화</span>
+            </button>
         </div>
-        <span class="text-sm opacity-90">Powered by Parcel & Tailwind</span>
     </header>
 
     <!-- Main chat area -->
-    <main id="chat-container" class="flex-1 overflow-y-auto p-4 chat-scroll">
-        <!-- Messages will be dynamically inserted here -->
+    <main id="chat-container" class="flex-1 overflow-y-auto p-6 chat-scroll max-w-6xl mx-auto w-full">
+        <!-- Welcome message -->
+        <div id="welcome-message" class="text-center py-12">
+            <div class="w-24 h-24 bg-gradient-to-br from-green-400 to-blue-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                <i class="fas fa-futbol text-white text-3xl"></i>
+            </div>
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">월드컵 정보 어시스턴트에 오신 것을 환영합니다!</h2>
+            <p class="text-gray-600 mb-8 max-w-2xl mx-auto">FIFA 월드컵의 역사, 선수, 팀, 경기 결과 등에 대해 무엇이든 물어보세요.</p>
+            
+            <!-- Quick action buttons -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-4xl mx-auto">
+                <button class="quick-question bg-white p-4 rounded-xl shadow-md hover:shadow-lg transition-all duration-200 border border-gray-100 hover:border-green-200 text-left">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-trophy text-green-600"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-gray-800">월드컵 우승국</h3>
+                            <p class="text-sm text-gray-500">역대 우승국과 횟수</p>
+                        </div>
+                    </div>
+                </button>
+                
+                <button class="quick-question bg-white p-4 rounded-xl shadow-md hover:shadow-lg transition-all duration-200 border border-gray-100 hover:border-green-200 text-left">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-user text-blue-600"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-gray-800">유명 선수</h3>
+                            <p class="text-sm text-gray-500">월드컵 활약한 선수들</p>
+                        </div>
+                    </div>
+                </button>
+                
+                <button class="quick-question bg-white p-4 rounded-xl shadow-md hover:shadow-lg transition-all duration-200 border border-gray-100 hover:border-green-200 text-left">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 bg-yellow-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-calendar text-yellow-600"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-gray-800">최근 월드컵</h3>
+                            <p class="text-sm text-gray-500">2022 카타르 월드컵 정보</p>
+                        </div>
+                    </div>
+                </button>
+            </div>
+        </div>
     </main>
 
-    <!-- Input area with endpoint selector -->
-    <footer class="border-t border-gray-300 bg-white p-4">
-        <form id="message-form" class="flex items-center space-x-2">
-            <input type="text" id="user-input"
-                class="flex-1 border border-gray-300 rounded-md p-2 outline-none focus:border-blue-500"
-                placeholder="Type your message..." required />
-            <select id="api-selector" class="border border-gray-300 rounded-md p-2">
-                <option value="naive" selected>Naive (/chat)</option>
-                <option value="assistant">Assistant (/assistant)</option>
-            </select>
-            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition">
-                Send
-            </button>
-        </form>
+    <!-- Input area -->
+    <footer class="border-t border-gray-200 bg-white/80 backdrop-blur-sm p-6">
+        <div class="max-w-6xl mx-auto">
+            <form id="message-form" class="flex items-end space-x-4">
+                <div class="flex-1 relative">
+                    <textarea id="user-input"
+                        class="w-full border border-gray-300 rounded-xl p-4 pr-12 outline-none focus:border-green-500 focus:ring-2 focus:ring-green-200 resize-none"
+                        placeholder="월드컵에 대해 궁금한 것을 물어보세요..." 
+                        rows="1"
+                        required></textarea>
+                    <button type="submit" class="absolute right-3 bottom-3 bg-gradient-to-r from-green-500 to-blue-500 text-white p-2 rounded-lg hover:from-green-600 hover:to-blue-600 transition-all duration-200">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
     </footer>
 
     <script type="module" src="./src/app.js"></script>
