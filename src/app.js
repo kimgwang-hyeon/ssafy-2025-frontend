@@ -8,7 +8,7 @@ const newChatBtn = document.getElementById("new-chat-btn");
 const welcomeMessage = document.getElementById("welcome-message");
 const chatMessages = document.getElementById("chat-messages");
 
-const BASE_URL = https://3.36.74.242/;
+const BASE_URL = https://3.36.74.242;
 
 let db;
 
